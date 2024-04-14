@@ -9,7 +9,7 @@ import Voleur from "./Personnages/Aventuriers/Voleur.ts"
 import Inventaire from "./Inventaire.ts"
 import Combat from "./Combat.ts"
 import Aventurier from "./Personnages/Aventurier.ts"
-import Zombie from "./Personnages/Monstres/Zombie.ts"
+import Boss from "./Personnages/Monstres/Boss.ts";
 
 export default class JeuxManagement {
     static _game : JeuxManagement | null = null;
@@ -37,13 +37,13 @@ export default class JeuxManagement {
         console.log("Voici la deuxième salle des coffres")
         this.salleDesCoffres()
         console.log("Voici le boss final")
-        let boss = [new Malphas()]
+        const boss = [new Boss()]
         this.aventuriers, this.aventuriersMort = new Combat(boss).débutCombat()
 
     }
     
     créationÉquipe() : Personnage[] {
-        let équipeAventurier : Personnage[] = []
+        const équipeAventurier : Personnage[] = []
         const options = [Guerrier, Mage, Paladin, Barbare, Pretre, Voleur]
         for (let i=1; i <= 3; i++) {
             const answer = new Menu(`Choisi la classe des aventuriers ${i}`,["Guerrier", "Mage", "Paladin", "Barbare", "Pretre", "Voleur"]).input()
@@ -53,13 +53,13 @@ export default class JeuxManagement {
     }
 
     salleDesCoffres(){
-        let menu = new Menu("Veux-tu ouvrir un coffre ?", ["Ouvrir le coffre", "Ne pas ouvrir le coffre et partir", "Quitter"])
-        let choice = menu.input()
+        const menu = new Menu("Veux-tu ouvrir un coffre ?", ["Ouvrir le coffre", "Ne pas ouvrir le coffre et partir", "Quitter"])
+        const choice = menu.input()
         if (choice == 1){
-            let probabilitéPiège : number = Math.floor(Math.random() * 100)
+            const probabilitéPiège : number = Math.floor(Math.random() * 100)
             if (probabilitéPiège < 30) {
                 for (let i=0; i<this.aventuriers.length; i++) {
-                    let dégâts : number = Math.floor(Math.random() * 100)/2
+                    const dégâts : number = Math.floor(Math.random() * 100)/2
                     this.aventuriers[i].HpActuel -= (this.aventuriers[i].maxHp*dégâts - this.aventuriers[i].defense)
                     if (this.aventuriers[i].HpActuel < 0) {
                         this.aventuriers[i].HpActuel = 0
@@ -68,7 +68,7 @@ export default class JeuxManagement {
                 this.siPersonnagesMort()
             } else {
                 let stealObject : string | null
-                let stealNumber : number = Math.floor(Math.random() * 100)
+                const stealNumber : number = Math.floor(Math.random() * 100)
                 if (stealNumber<5){
                     stealObject = "demi-étoile"
                 } else if(5<=stealNumber && stealNumber<20) {

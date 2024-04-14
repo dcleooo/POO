@@ -3,6 +3,7 @@ import Menu from "../../Menu.ts";
 import Monstre from "../Monstre.ts";
 import Inventaire from "../../Inventaire.ts";
 import Aventurier from "../Aventurier.ts";
+import { ObjectReturn } from "../objectReturn.ts";
 
 
 export default class Pretre extends Aventurier{
@@ -16,9 +17,9 @@ export default class Pretre extends Aventurier{
         super(attaque,defense,vitesse,HpMax)
     }
 
-    attaqueSpéciale(allié : Personnage):object{
+    attaqueSpéciale(allié : Personnage):ObjectReturn{
         allié.soin(15)
-    return {play:true,nomPersonnage:allié.className}
+    return {play:true,object:allié.className}
 }
 
     Tour(aventuriers:Aventurier[],monstres:Monstre[]){

@@ -3,6 +3,7 @@ import Menu from "../../Menu.ts";
 import Monstre from "../Monstre.ts";
 import Inventaire from "../../Inventaire.ts";
 import Aventurier from "../Aventurier.ts";
+import { ObjectReturn } from "../objectReturn.ts";
 
 
 export default class Barbare extends Aventurier{
@@ -16,13 +17,13 @@ export default class Barbare extends Aventurier{
         super(attaque,defense,vitesse,HpMax)
     }
 
-    AttaqueSpéciale(ennemi:Personnage):object{
+    AttaqueSpéciale(ennemi:Personnage):objectReturn{
         if (this.HpActuel- (this.HpMax*(20/100)) > 0){
             this.HpActuel -= (this.HpMax*(20/100))
             this.dégâts(ennemi,1.3)
-            return {play:true,nomMonstre:ennemi.className}
+            return {play:true,object:ennemi.className}
         }
-        return {play:false,stealObject:null}
+        return {play:false,object:null}
     }
 
     Tour(aventuriers:Aventurier[],monstres:Monstre[]){
@@ -38,9 +39,6 @@ export default class Barbare extends Aventurier{
                 }else{
                     this.dégâts(monstres[choice])
                     console.log(`Tu as mis des dégâts à ${monstres[choice].className}.`)
-                    //if (monstres[choice].className==="augmentor"){  Si je creer un mechant qui rend les degats qu'il a subi
-                    //    monstres[choice].damageReceve()
-                    //}
                 }
                 break
 
@@ -51,12 +49,9 @@ export default class Barbare extends Aventurier{
                     console.log("Tu ne peux pas faire ce choix, choisi un autre chose")
                     this.Tour(aventuriers,monstres)
                 }else{
-                    let action:object=this.AttaqueSpéciale(monstres[choice])
+                    let action:ObjectReturn=this.AttaqueSpéciale(monstres[choice])
                     if (action['joue']===true){
                         console.log(`Tu as mis des dégâts à ${monstres[choice].className}.`)
-                        // if (monstres[choice].className==="augmentor"){  Pareil qu'au dessus
-                        //    monstres[choice].damageReceve()
-                        //}
                     } else {
                         console.log("Tu ne peux pas faire ça car ton personnage n'a pas assez de vie")
                         this.Tour(aventuriers,monstres)

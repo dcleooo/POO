@@ -3,6 +3,7 @@ import Menu from "../../Menu.ts";
 import Monstre from "../Monstre.ts";
 import Inventaire from "../../Inventaire.ts";
 import Aventurier from "../Aventurier.ts";
+import { ObjectReturn } from "../objectReturn.ts";
 
 
 export default class Voleur extends Aventurier{
@@ -21,12 +22,16 @@ export default class Voleur extends Aventurier{
             let stealNumber : number = Math.floor(Math.random() * 100);
             if (stealNumber<5){
                 voleObjet = "demi-étoile"
+                Inventaire.inventory.nDemiÉtoile+=1
             } else if(5<=stealNumber && stealNumber<20) {
                 voleObjet = "fragment d'étoile"
+                Inventaire.inventory.nFragmentÉtoile+=1
             } else if (60<=stealNumber && stealNumber<90){
                 voleObjet = "potion"
+                Inventaire.inventory.nPotions+=1
             } else if (90<=stealNumber){
                 voleObjet = "ether"
+                Inventaire.inventory.nEthers+=1
             } else {
                 voleObjet = null
             }
@@ -46,24 +51,21 @@ export default class Voleur extends Aventurier{
                 }else{
                     this.dégâts(monstres[choice])
                     console.log(`Tu as mis des dégâts à ${monstres[choice].className}.`)
-                    //if (monstres[choice].className==="augmentor"){  Si je creer un mechant qui rend les degats qu'il a subi
-                    //    monstres[choice].damageReceve()
-                    //}
                 }
                 break
 
             case 1:
-                menu = new Menu("Qui veux-tu attaquer ?", Inventaire.inventory.listNameCharacter(monstres))
+                menu = new Menu("Qui veux-tu attaquer ?", Inventaire.inventory.listeNomPersonnage(monstres))
                 choice = menu.input()
                 if (choice===undefined){
                     console.log("Tu ne peux pas faire ce choix, choisi un autre choix")
                     this.Tour(aventuriers,monstres)
                 }else{
-                    let action:object=this.AttaqueSpéciale(monstres[choice])
+                    let action:ObjectReturn=this.AttaqueSpéciale(monstres[choice])
                     if (action['voleObjet']===null){
                         console.log(`Tu n'as rien réussi à voler`)
                     } else {
-                        console.log(`Tu as volé cet object : ${action[1]}.`)
+                        console.log`Tu as volé cet object : ${action['object']}.`
                     }
                 }
                 break

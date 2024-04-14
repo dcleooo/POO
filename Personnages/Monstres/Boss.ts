@@ -1,20 +1,28 @@
-import Monstres from "./Monstre%201.ts";
-import Character from "./Character.ts";
+import Personnage from "../Personnage.ts";
+import Monstre from "../Monstre.ts";
+import Aventurier from "../Aventurier.ts";
 
-class Boss extends Monstres {
-    constructor(name: string) {
-        super(name, 15, 15, 5, 200);
+export default class Boss extends Monstre{
+    className:string="Boss";
+    Positionnement:number=this.vitesse;
+
+    constructor(attaque : number = 8,
+                defense : number = 10,
+                vitesse : number= 3,
+                maxHp :number= 100
+                ){
+        super(attaque,defense,vitesse,maxHp)
     }
 
-    performSpecialAction(targets: Character[]): void {
-        console.log(`${this.name} utilise Attaque de groupe.`);
-        targets.forEach(target => {
-            const damage = Math.round((this.attack - target.defense) * 0.4);
-            target.takeDamage(damage);
-        });
+    Tour(aventuriers:Aventurier[],_monstres:Monstre[]){
+        let personnageCiblé : Personnage = aventuriers[0]
+        const whichEnnemi :number = Math.floor(Math.random() * 10)
+        if (whichEnnemi>3 && whichEnnemi<6){
+            personnageCiblé = this.aventurierAvecLeMoinsDeHp(aventuriers)
+        } else {
+            personnageCiblé = aventuriers[Math.floor(Math.random() * aventuriers.length)]
+        }
+        this.dégâts(personnageCiblé)
+        console.log(`${this.className} a mis des dégâts à ${personnageCiblé.className}:`+(this.attaque - personnageCiblé.defense)+".")
     }
-
-    // Implémentez d'autres méthodes spécifiques au boss si nécessaire
 }
-
-export default Boss;

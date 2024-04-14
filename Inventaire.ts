@@ -19,7 +19,7 @@ export default class Inventaire {
         return this._Inventory
     }
 
-    inventaireManagement() : boolean{
+    ManageInventaire() : boolean{
         let menu = new Menu("Que veux-tu utiliser ?",["Potion","Fragment d'étoile", "demi-étoile","Ether", "Quitter l'inventaire"])
         let choice = menu.input()
         switch (choice){
@@ -27,7 +27,7 @@ export default class Inventaire {
                 menu = new Menu("Sur qui veux-tu l'utilsier ?",this.listeNomPersonnage(JeuxManagement.game.aventuriers))
                 choice=menu.input()
                 if(!this.utilisePotion(JeuxManagement.game.aventuriers[choice])){
-                    this.inventaireManagement()
+                    this.ManageInventaire()
                 }else{
                     return true
                 }
@@ -35,7 +35,7 @@ export default class Inventaire {
                  menu = new Menu("Sur qui veux-tu l'utilsier ?",this.listeNomPersonnage(JeuxManagement.game.aventuriers))
                  choice=menu.input()
                  if(!this.utiliseFragmentÉtoile(JeuxManagement.game.aventuriers[choice])){
-                    this.inventaireManagement()
+                    this.ManageInventaire()
                 }else{
                     return true
                 }
@@ -43,7 +43,7 @@ export default class Inventaire {
                 menu = new Menu("Sur qui veux-tu l'utilsier ?",this.listeNomPersonnage(JeuxManagement.game.aventuriers))
                 choice=menu.input()
                 if(!this.utiliseDemiÉtoile(JeuxManagement.game.aventuriers[choice])){
-                    this.inventaireManagement()
+                    this.ManageInventaire()
                 }else{
                     return true
                 }
@@ -51,7 +51,7 @@ export default class Inventaire {
                 menu = new Menu("Sur qui veux-tu l'utilsier ?",this.listeNomPersonnage(JeuxManagement.game.aventuriers))
                 choice=menu.input()
                 if(!this.utiliseEther(JeuxManagement.game.aventuriers[choice])){
-                    this.inventaireManagement()
+                    this.ManageInventaire()
                 }else{
                     return true
                 }
@@ -59,7 +59,7 @@ export default class Inventaire {
                 return false
             default:
                 console.log("Tu ne peux pas faire ce choix")
-                this.inventaireManagement()
+                this.ManageInventaire()
         }
         return true
     }

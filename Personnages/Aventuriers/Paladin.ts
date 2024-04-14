@@ -3,6 +3,7 @@ import Menu from "../../Menu.ts";
 import Monstre from "../Monstre.ts";
 import Inventaire from "../../Inventaire.ts";
 import Aventurier from "../Aventurier.ts";
+import { ObjectReturn } from "../objectReturn.ts";
 
 
 export default class Paladin extends Aventurier{
@@ -16,9 +17,9 @@ export default class Paladin extends Aventurier{
         super(attaque,defense,vitesse,HpMax)
     }
 
-    AttaqueSpéciale(ennemi:Personnage):object{
+    AttaqueSpéciale(ennemi:Personnage):ObjectReturn{
             this.dégâts(ennemi,0.4)
-            return {play:true,stealObject:null} 
+            return {play:true,object:null} 
         }
 
     Tour(aventuriers:Aventurier[],monstres:Monstre[]){

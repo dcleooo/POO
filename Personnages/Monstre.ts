@@ -1,5 +1,5 @@
 import Personnage from "./Personnage.ts";
-
+import { ObjectReturn } from "./objectReturn.ts";
 
 export default abstract class Monstre extends Personnage{
     dégâtsSubis(){}

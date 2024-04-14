@@ -1,9 +1,9 @@
 import Personnage from "./Personnages/Personnage.ts"
-//import Augmentor from "./Characters/Monsters/Augmentor.ts"
-//import Ogre from "./Characters/Monsters/Ogre.ts"
-//import Golem from "./Characters/Monsters/Golem.ts"
-//import Vampire from "./Characters/Monsters/Vampire.ts"
-//import Zombie from "./Characters/Monsters/Zombie.ts"
+import Augmentor from "./Personnages/Monstres/Augmentor.ts"
+import AraignéeVenimeuse from "./Personnages/Monstres/AraignéeVenimeuse.ts"
+import Boss from "./Personnages/Monstres/Boss.ts"
+import MiniTroll from "./Personnages/Monstres/MiniTroll.ts"
+import Phantome from "./Personnages/Monstres/Phantome.ts"
 import JeuxManagement from "./JeuxManagement.ts"
 import Mage from "./Personnages/Aventuriers/Mage.ts"
 
@@ -12,12 +12,16 @@ export default class Combat {
     monstres : Personnage[]
     ordre : Personnage[]
     aventuriersMort : Personnage[]
+    monstresMort : Personnage[]
+    toutPersonnages : Personnage[]
 
     constructor(boss? : Personnage[]) {
         this.aventuriers = JeuxManagement.game.aventuriers
         this.monstres = boss || this.créationMonstres()
         this.ordre = this.getOrder(this.aventuriers.concat(this.monstres))
         this.aventuriersMort = []
+        this.monstresMort = []
+        this.toutPersonnages = this.aventuriers.concat(this.aventuriersMort.concat(this.monstres.concat(this.monstresMort)))
     }
 
     débutCombat() : Personnage[] {
@@ -55,17 +59,12 @@ export default class Combat {
 
     getOrder(orderList : Personnage[]) : Personnage[] {
         orderList.sort((a, b) => b.Positionnement - a.Positionnement)
-        console.log("L'ordre des listes : ")
-        for(let personnage of orderList) {
-            console.log(personnage.className, personnage.Positionnement)
-        }
-
         return orderList
     }
 
     créationMonstres() : Personnage[] {
         let monstres : Personnage[] = []
-        const listeMonstres = [Augmentor, Ogre, Golem, Vampire, Zombie]
+        const listeMonstres = [AraignéeVenimeuse,Boss,MiniTroll,Phantome]
         for (let i=1; i <= 3; i++) {
             monstres.push(new listeMonstres[Math.floor(Math.random() * 5)]())
         }
@@ -73,14 +72,19 @@ export default class Combat {
     }
 
     siPersonnagesMort() {
-        for (let i = 0; i < this.ordre.length; i++) {
-            if (this.ordre[i].HpActuel == 0){
-                console.log(`${this.ordre[i].className} est mort`)
-                this.aventuriersMort.push(this.ordre[i])
-                this.ordre.splice(i, 1)
+        for (let i = 0; i < this.aventuriers.length; i++) {
+            if (this.aventuriers[i].HpActuel == 0){
+                this.aventuriersMort.push(this.aventuriers[i])
+                this.aventuriers.splice(i, 1)
             }
         }
-    }
+        for (let i=0;i<this.monstres.length;i++){
+            if (this.monstres[i].HpActuel <= 0){
+                this.monstresMort.push(this.monstres[i])
+                this.monstres.splice(i,1)
+            }
+        }
+    
 
     statistiques(personnage : Personnage) {
         console.log(
@@ -95,9 +99,6 @@ export default class Combat {
             console.log(`
             Max Mana : ${personnage.manaActuel}\n
             Actuel Mana : ${personnage.manaActuel}\n`)
-        //} else if (personnage instanceof Augmentor) {
-         //   console.log(`
-         //   Orbs : ${personnage.orbe.length}\n`)
         }
     }
 }
